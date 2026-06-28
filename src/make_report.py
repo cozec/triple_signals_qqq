@@ -160,6 +160,8 @@ HTML = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>Is DCA-ing the Nasdaq Optimal? — Three-Signal QQQ/TQQQ Backtest</title>
 <style>{CSS}</style></head><body><div class="wrap">
 
+<div style="text-align:right;font-size:13px;margin-bottom:8px"><a href="report_zh.html">中文 ›</a></div>
+
 <h1>Is dollar-cost-averaging the Nasdaq really optimal?</h1>
 <div class="sub">A reproduction &amp; stress-test of the three-signal (CAPE + Drawdown + VIX)
 dynamic-leverage framework from
