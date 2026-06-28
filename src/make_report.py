@@ -307,6 +307,33 @@ time anything; <b>VIX is largely redundant</b>. The “three-signal” trio adds
 over simply holding a high-TQQQ core — consistent with the earlier finding that the edge is
 mostly in-sample story-telling.</div>
 
+<h2>Recent signal events — two case studies</h2>
+<p>What do the signals actually look like in the recent past? Two zoom-ins make the
+mechanics concrete. Panels show QQQ price, CAPE percentile, drawdown (and 25-day return),
+and VIX, each with its decision thresholds drawn in.</p>
+
+<h3>A) 2022–23 bear → the last buy trigger</h3>
+<img src="data:image/png;base64,{b64('event_2023_bottom.png')}" alt="2022-23 bear and 2023-05 buy trigger">
+<p>The 2022 bear drove QQQ's drawdown below the <b>−20% "deep"</b> line and held it there for
+most of 2022 into 2023 — that single LOW signal kept the framework in <b>minor-bottom</b> mode
+(tilt up toward 75% TQQQ). But it never escalated to a <b>major bottom</b>: CAPE percentile only
+fell to ~0.45 (never &lt;20% "cheap") and VIX peaked around 33 (never &gt;40 "panic"), so only
+1 of 3 signals was ever on. The green line marks <b>2023-05</b>, the last month the smoothed
+drawdown was still below −20% before the recovery lifted it back up — the most recent
+signal-driven buy in the entire 2000–2026 sample.</p>
+
+<h3>B) March–April 2026 correction</h3>
+<img src="data:image/png;base64,{b64('event_2026_correction.png')}" alt="March-April 2026 correction">
+<p>A brisk <b>~−16% correction</b> (raw peak-to-trough; ~−9% on the 5-day-smoothed drawdown the
+strategy reads) bottomed on <b>2026-03-30</b>, with VIX rising only to ~28–31 — elevated but
+short of the 40 panic line — and CAPE nowhere near cheap. So <b>zero LOW signals</b> fired: no
+bottom, no TQQQ all-in. The only effect was that the dip knocked the index off its high, which
+<i>switched off</i> the "overvalued near-high → don't chase" de-risk for March–April and let the
+framework <b>resume normal buying</b> into the dip. A fast V-shaped rebound (the 25-day return
+swung to +19% by May) carried QQQ to new highs, and with CAPE pinned back at its ceiling the
+strategy returned to the don't-chase state. A textbook "shallow, fast" pullback — exactly the
+kind the framework rides through without crisis-buying.</p>
+
 <footer>
 Synthetic TQQQ validated vs real (2010–2026): daily-return correlation 0.9989, CAGR 73.2% vs 73.2%.
 CAPE = S&P-500 Shiller CAPE (multpl.com); QQQ/TQQQ/VIX/T-bill via yfinance. Full methodology
