@@ -11,6 +11,7 @@ import pandas as pd
 import signal_analysis as SA
 
 SIG, ABL = SA.run()   # signal fire-rate stats + ablation, also writes the chart
+TRIG = SA.trigger_counts()   # months-on + episodes per signal/action
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 RESULTS = os.path.join(ROOT, "results")
@@ -333,6 +334,39 @@ framework <b>resume normal buying</b> into the dip. A fast V-shaped rebound (the
 swung to +19% by May) carried QQQ to new highs, and with CAPE pinned back at its ceiling the
 strategy returned to the don't-chase state. A textbook "shallow, fast" pullback — exactly the
 kind the framework rides through without crisis-buying.</p>
+
+<h2>How often did the signals actually fire?</h2>
+<p>Over the <b>{TRIG['N']} monthly decision dates</b> (Jan 2000 → Jun 2026), counted two ways:
+total <b>months</b> a signal was on, and the number of distinct <b>episodes</b> (separate runs) —
+the latter is closer to “how many separate times it triggered.”</p>
+<div class="card">{table(["Signal / action","Months on","Episodes"],[
+  [f'<span class="dot" style="background:#1f77b4"></span>CAPE cheap (&lt;20%)', TRIG['rows']['cheap'][0], f"<b>{TRIG['rows']['cheap'][1]}</b>"],
+  [f'CAPE high (&gt;70%)', TRIG['rows']['high'][0], TRIG['rows']['high'][1]],
+  [f'CAPE bubble (&gt;85%)', TRIG['rows']['bubble'][0], TRIG['rows']['bubble'][1]],
+  [f'<span class="dot" style="background:#2ca02c"></span>DD deep (&lt;−20%)', TRIG['rows']['deep'][0], f"<b>{TRIG['rows']['deep'][1]}</b>"],
+  [f'25-day crash (&lt;−12%)', TRIG['rows']['crash'][0], f"<b>{TRIG['rows']['crash'][1]}</b>"],
+  [f'<span class="dot" style="background:#d62728"></span>VIX panic (&gt;40)', TRIG['rows']['panic'][0], f"<b>{TRIG['rows']['panic'][1]}</b>"],
+  [f'VIX calm (&lt;12)', TRIG['rows']['calm'][0], TRIG['rows']['calm'][1]],
+  [f'<b>BUY — major bottom (≥2 LOW → all-in TQQQ)</b>', f"<b>{TRIG['rows']['major'][0]}</b>", f"<b>{TRIG['rows']['major'][1]}</b>"],
+  [f'BUY — minor bottom (1 LOW → tilt up)', TRIG['rows']['minor'][0], TRIG['rows']['minor'][1]],
+  [f'de-risk — “no-chase” trim', TRIG['rows']['nochase'][0], TRIG['rows']['nochase'][1]],
+])}</div>
+<div class="callout warn"><b>Highlights.</b>
+<ul style="margin:8px 0 0">
+ <li>The marquee move — a <b>major bottom (all-in TQQQ)</b> — fired only <b>{TRIG['rows']['major'][1]} times</b>
+   in 26 years ({TRIG['rows']['major'][0]} months, dominated by the long 2008–2011 cluster).
+   The last one was <b>{TRIG['last_major']}</b> — none since.</li>
+ <li><b>Months ≠ times.</b> DD-deep shows {TRIG['rows']['deep'][0]} months but only
+   <b>{TRIG['rows']['deep'][1]} episodes</b> — once QQQ is underwater it stays there for years
+   (a persistent <i>state</i>, not a frequent trigger). The 25-day crash is the opposite:
+   {TRIG['rows']['crash'][0]} months across <b>{TRIG['rows']['crash'][1]} episodes</b> — the real “fresh crash” detector.</li>
+ <li><b>VIX panic</b> is the rarest real trigger: {TRIG['rows']['panic'][0]} months / <b>{TRIG['rows']['panic'][1]} episodes</b> (2008, 2011, 2020).</li>
+ <li>By episode count, the <b>defensive “no-chase” trim is the most frequent action ({TRIG['rows']['nochase'][1]} times)</b> —
+   and almost the only thing firing in recent years, with CAPE pinned at its ceiling.</li>
+</ul>
+Signals fire constantly on the <i>defensive</i> side, but the aggressive crisis-buy the whole strategy
+is built around is extraordinarily rare — <b>{TRIG['rows']['major'][1]} times in 26 years</b>. That is exactly
+why most of the realized return comes from the always-on TQQQ core rather than the timing.</div>
 
 <footer>
 Synthetic TQQQ validated vs real (2010–2026): daily-return correlation 0.9989, CAGR 73.2% vs 73.2%.

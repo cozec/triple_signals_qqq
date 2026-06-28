@@ -40,6 +40,50 @@ def trigger_stats(df):
     return stats
 
 
+def trigger_counts():
+    """Count, over the monthly decision dates, how many MONTHS each signal/action
+    was on and how many distinct EPISODES (consecutive runs) it formed.
+    """
+    df = build_signals(load_dataset())
+    ms = month_starts(df.index, pd.Timestamp("2000-01-01"), END)
+    r = df.loc[ms]
+
+    def episodes(mask):
+        v = mask.astype(int).to_numpy()
+        prev = np.concatenate([[0], v[:-1]])
+        return int(((v == 1) & (prev == 0)).sum())
+
+    cheap = r["cape_pct"] < S.CAPE_CHEAP
+    deep = r["dd"] < S.DD_DEEP
+    panic = r["vix_s"] > S.VIX_PANIC
+    crash = r["dd25"] < S.DD_CRASH
+    high = r["cape_pct"] > S.CAPE_HIGH
+    bubble = r["cape_pct"] > S.CAPE_BUBBLE
+    calm = r["vix_s"] < S.VIX_CALM
+    low = cheap.astype(int) + deep.astype(int) + panic.astype(int)
+    major = low >= 2
+    minor = low == 1
+    near = r["near_high"].astype(bool)
+    nochase = (~major) & (~minor) & (~crash) & high & near
+
+    items = [
+        ("cheap", "CAPE cheap (<20%)", cheap),
+        ("high", "CAPE high (>70%)", high),
+        ("bubble", "CAPE bubble (>85%)", bubble),
+        ("deep", "DD deep (<-20%)", deep),
+        ("crash", "25-day crash (<-12%)", crash),
+        ("panic", "VIX panic (>40)", panic),
+        ("calm", "VIX calm (<12)", calm),
+        ("major", "BUY: major bottom (>=2 LOW)", major),
+        ("minor", "BUY: minor bottom (1 LOW)", minor),
+        ("nochase", "de-risk: no-chase trim", nochase),
+    ]
+    rows = {k: (int(mask.sum()), episodes(mask)) for k, lbl, mask in items}
+    labels = {k: lbl for k, lbl, _ in items}
+    last_major = pd.Timestamp(r.index[major][-1]).year if major.any() else None
+    return dict(N=len(r), rows=rows, labels=labels, last_major=last_major)
+
+
 def ablation():
     base = dict(CAPE_CHEAP=S.CAPE_CHEAP, CAPE_HIGH=S.CAPE_HIGH, CAPE_BUBBLE=S.CAPE_BUBBLE,
                 DD_DEEP=S.DD_DEEP, DD_CRASH=S.DD_CRASH, VIX_PANIC=S.VIX_PANIC, VIX_CALM=S.VIX_CALM)
