@@ -305,11 +305,6 @@ time anything; <b>VIX is largely redundant</b>. The “three-signal” trio adds
 over simply holding a high-TQQQ core — consistent with the earlier finding that the edge is
 mostly in-sample story-telling.</div>
 
-<h2>Charts</h2>
-<img src="data:image/png;base64,{b64('equity_curves_by_start.png')}" alt="Equity curves by start">
-<img src="data:image/png;base64,{b64('irr_mdd_by_start.png')}" alt="IRR and MDD by start">
-<img src="data:image/png;base64,{b64('tqqq_synth_validation.png')}" alt="Synthetic vs real TQQQ validation">
-
 <footer>
 Synthetic TQQQ validated vs real (2010–2026): daily-return correlation 0.9989, CAGR 73.2% vs 73.2%.
 CAPE = S&P-500 Shiller CAPE (multpl.com); QQQ/TQQQ/VIX/T-bill via yfinance. Full methodology
